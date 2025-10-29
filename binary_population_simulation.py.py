@@ -1,4 +1,4 @@
-# %% Step 1: Imports & Constants
+# Step 1: Imports & Constants
 import os
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,7 +15,7 @@ RSUN = 6.957e8                   # meters
 plt.rcParams.update({'figure.figsize': (7, 5), 'axes.grid': True})
 print("Environment ready ✅")
 
-# %% Step 2: Sample random binary systems
+# Step 2: Sample random binary systems
 def sample_m1(size, mmin=5, mmax=40, alpha=2.35):
     """Draw primary masses from a simple Salpeter power law."""
     r = np.random.rand(size)
@@ -31,7 +31,7 @@ a0 = np.exp(np.random.uniform(np.log(1), np.log(100), N))   # separation in R_su
 print(f"Generated {N} binaries ✅")
 print("Example:", list(zip(m1[:3], m2[:3], a0[:3])))
 
-# %% Step 3: Compute merger times using Peters (1964)
+# Step 3: Compute merger times using Peters (1964)
 def merger_time_s(m1_msun, m2_msun, a0_rsun):
     """Merger time in seconds for circular binaries."""
     m1, m2, a0 = m1_msun * MSUN, m2_msun * MSUN, a0_rsun * RSUN
@@ -49,14 +49,14 @@ merge_mask = tmerge_yr < HUBBLE_TIME_YR
 
 print(f"Fraction merging within Hubble time: {fraction:.2%}")
 
-# %% Step 4: Compute chirp masses
+# Step 4: Compute chirp masses
 def chirp_mass(m1, m2):
     M = m1 + m2
     return (m1 * m2)**(3/5) / (M**(1/5))
 
 chirp = chirp_mass(m1, m2)
 
-# %% Step 5: Make plots
+# Step 5: Make plots
 plt.figure()
 plt.scatter(m1, m2, s=4, alpha=0.4)
 plt.xlabel("m1 [Msun]")
@@ -66,7 +66,7 @@ plt.tight_layout()
 plt.savefig("results/mass_scatter.png", dpi=160)
 plt.show()
 
-# === 2️⃣ Merger-Time Distribution (within 13.8 Gyr) ===
+# 2️⃣ Merger-Time Distribution (within 13.8 Gyr) 
 plt.figure()
 plt.hist(np.log10(tmerge_yr[merge_mask]), bins=40)
 plt.xlabel("log10 Merger Time [years]")
@@ -76,7 +76,7 @@ plt.tight_layout()
 plt.savefig("results/merger_times_hist.png", dpi=160)
 plt.show()
 
-# === 3️⃣ Chirp Mass vs Merger Time (Mergers only) ===
+# 3️⃣ Chirp Mass vs Merger Time (Mergers only) 
 plt.figure()
 plt.scatter(tmerge_yr[merge_mask], chirp[merge_mask], s=6, alpha=0.7)
 plt.xscale("log")
@@ -86,3 +86,4 @@ plt.title("Chirp Mass vs Merger Time (Mergers only)")
 plt.tight_layout()
 plt.savefig("results/chirp_vs_tmerge.png", dpi=160)
 plt.show()
+
